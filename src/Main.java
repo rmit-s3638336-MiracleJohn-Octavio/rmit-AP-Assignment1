@@ -9,8 +9,13 @@ public class Main {
 		
 		Scanner scanner = new Scanner(System.in);
 	    int choice;
+	    boolean exitLoop;
 	    
-	    while (true) {
+	    while (true) {	    	
+	    	
+	    	// Reset 
+	    	exitLoop  = false;
+	    	
 	    	System.out.println("");
 	    	System.out.println("+-----------------------------------------------+");
 	    	System.out.println("|               Ozlympic Games MENU             |");
@@ -37,21 +42,22 @@ public class Main {
 	        	break;
 	        case 0:
 	        	if (exitGame()) {
-	        		break;	
+	        		// Close the scanner object
+	        		exitLoop = true;
+		        	scanner.close();
 	        	}
+	        	break;
 	        default:
 	        	// Do Nothing
 	    	}	
-	    	
-	    	if (choice == 0) {
-	    		// Close the scanner object
-	        	scanner.close();
-	        	break;
+
+	    	if (exitLoop) { 
+	    		// Exit the loop
+	    		break;
 	    	} else {
-	    		// Press any key to continue
-		    	pressAnyKey();		
+	    		// Clear the Screen
+		    	clearScreen();	
 	    	}
-	    	
 	    }
 	}
 	
@@ -62,6 +68,7 @@ public class Main {
 	    int intChoice;
 	    
 	    while (true) {
+	    	clearScreen();
 	    	System.out.println("");
 	    	System.out.println("+-----------------------------------------------+");
 	    	System.out.println("|      Do you want to EXIT Ozlympic Games?      |");
@@ -75,8 +82,10 @@ public class Main {
 	    	
 	    	if (intChoice == 1) {
 	    		clearScreen();
-	        	System.out.println("Thank you for using Ozlympic Games");
-	        	
+	    		System.out.println("+-----------------------------------------------+");
+		    	System.out.println("|     Thank you for using Ozlympic Games!!!     |");
+		    	System.out.println("+-----------------------------------------------+");
+	        	 
 	    		returnValue = true;
 	    		break;
 	    	} else if (intChoice == 0) {
@@ -84,7 +93,11 @@ public class Main {
 	    		break;
 	    	} else {
 	    		clearScreen();
-	        	System.out.println("You have selected an invalid choice!");
+	    		System.out.println("+-----------------------------------------------+");
+		    	System.out.println("|     You have selected an invalid choice!      |");
+		    	System.out.println("+-----------------------------------------------+");
+	        	System.out.println("");
+	        	pressAnyKey();
 	    	}	    	
 	    }
 		
@@ -92,7 +105,7 @@ public class Main {
 	}
 	
 	static void pressAnyKey() {
-		System.out.println("Press any key to continue!");
+		System.out.println("Press <Enter> key to continue!");
     	try {
 			System.in.read();
 		} catch (IOException e) {
