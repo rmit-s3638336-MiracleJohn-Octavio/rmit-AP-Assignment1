@@ -18,13 +18,13 @@ public class myLibrary {
 		// "+------------------------------------------------+");
 		// "| [ 0 ] - Exit                                   |");
 		// "+------------------------------------------------+");
-		// "Select the number of your choice (Type Below):");
+		// "Type the code of your choice below:";
 		
 		clearScreen();
 		displayMenuTitle(strMenuTitle);
 		displayMenuOptions(arrMenuOptions);
 		displaySeparator();
-		printIt("Select the number of your choice (Type Below):");
+		printIt("Type the code of your choice below:");
 	}	
 	static void displayMenuTitle(String strMessage) {
 		displaySeparator();
@@ -33,10 +33,12 @@ public class myLibrary {
 	}
 	static void displayMenuOptions(String arrValue[]) {
 		for (int i = 0; i < arrValue.length; i++) {
-			if (arrValue[i] == "~") {
+			String value = arrValue[i];
+			String tilde = "~";
+			if ( value.equals(tilde)) {
 				displaySeparator();
 			} else {
-				printIt("| " + padRight(arrValue[i], _intMenuWidth-4) + " |");	
+				printIt("| " + padRight(value, _intMenuWidth-4) + " |");	
 			}	
 		}
 	}

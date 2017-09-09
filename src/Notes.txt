@@ -1,2 +1,25 @@
 - Need to use the HashMap for the collections 
 - Use Class instead of Structure
+
+
+			/*
+			 
+			 +------------------------------+
+			 | Sample for Hashmap Iteration |
+			 +------------------------------+
+			  
+			// Load Athlete Names to Array from HashMap
+			String strDelimitedNames = "  Code   | Name of Athlete,~";
+			for (Map.Entry<String, Athlete> entry : _mapAthlete.entrySet()) {
+				String type = entry.getValue().getType();
+				String uid = entry.getValue().getUid();
+				String name = entry.getValue().getName();
+				if (type == "Swimmer" || type == "Super") {
+					strDelimitedNames += ((strDelimitedNames != "") ? "," : "") + "[ " + uid+ " ] - " + name;	
+				}				
+			}			
+			myLibrary.printIt(strDelimitedNames);
+			_arrMenuOptionsAthleteSwimmer = strDelimitedNames.split(",", -1);			
+			myLibrary.displayMenu("Select Athlete (Swimmer)", _arrMenuOptionsAthleteSwimmer);
+			
+			*/
