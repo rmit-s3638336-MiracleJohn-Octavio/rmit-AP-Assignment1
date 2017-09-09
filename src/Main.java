@@ -269,7 +269,8 @@ public class Main {
 		String strSport = "";										// Name of Sport Selected
 		String arrMenuOptions[] = {};								// Array that will hold the Menu Options
 		String strDelimitedNames = 
-				" Code   | Name of Athlete,"
+				" Code   | " + myLibrary.padRight("Name of Athlete", 30) + " | TScore"
+						+ ","
 			  + "~";	// This will be the column header
 		
 		if (enmSport == _enmSport.Swimming) {
@@ -294,14 +295,14 @@ public class Main {
 			if (type == strSport) {
 				strDelimitedNames += ((strDelimitedNames != "") ? "," : "") 
 						+ "[ " + uid+ " ] - " 
-						+ name + ((isSelected) ? " (Selected)" : "");	
+						+ myLibrary.padRight(name + ((isSelected) ? " (Selected)" : ""), 30) + " | 0";	
 			}	
 			
 			// Add the Super Athletes
 			if (type == _SUPER) {
 				strDelimitedNames += ((strDelimitedNames != "") ? "," : "") 
 						+ "[ " + uid+ " ] - " 
-						+ name + "*" + ((isSelected) ? " (Selected)" : "");;	
+						+ myLibrary.padRight(name + "*" + ((isSelected) ? " (Selected)" : ""), 30) + " | 0";	
 			}
 		}
 		

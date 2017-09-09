@@ -4,7 +4,7 @@ public class myLibrary {
 
 	// Menu | Message Box
 	
-	static final int _intMenuWidth = 50;	
+	static final int _intMenuWidth = 55;	
 	static void displayMenu(String strMenuTitle, String arrMenuOptions[]) {
 		// Pattern
     	// 			 1         2         3         4         5
