@@ -1,0 +1,2 @@
+- Need to use the HashMap for the collections 
+- Use Class instead of Structure
