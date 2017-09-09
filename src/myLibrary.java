@@ -18,7 +18,7 @@ public class myLibrary {
 		// "+------------------------------------------------+");
 		// "| [ 0 ] - Exit                                   |");
 		// "+------------------------------------------------+");
-		// "Select the number of your choice (Type Below):");		
+		// "Select the number of your choice (Type Below):");
 		
 		clearScreen();
 		displayMenuTitle(strMenuTitle);
@@ -69,9 +69,9 @@ public class myLibrary {
 	}
 	
 	static void clearScreen() {
-		for (int i = 1; i < 50; i++) {
+		for (int i = 1; i < 5; i++) {
     		System.out.println("");	
-		}
+		}		
 	}
 	
 	// Justify
@@ -156,7 +156,6 @@ public class myLibrary {
 			System.in.read();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-    	clearScreen();
+		}    	
 	}
 }

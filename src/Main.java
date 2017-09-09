@@ -18,6 +18,10 @@ public class Main {
 			"~",
 			"[ 0 ] - Exit"
 			};	
+	static String _arrMenuOptionsAthleteSwimmer[];
+	static String _arrMenuOptionsAthleteCyclist[];
+	static String _arrMenuOptionsAthleteSprinter[];
+	static String _arrMenuOptionsAthleteSuper[];
 	static String _arrMenuOptionsYesNo[]= {
 			"[ 1 ] - Yes",			
 			"[ 0 ] - No"
@@ -78,9 +82,9 @@ public class Main {
 	
 	// Hashmap
 	static HashMap<String, AthleteSwimmer> _mapSwimmer;
-	static HashMap<String, Cyclist> _mapCyclist;
-	static HashMap<String, Sprinter> _mapSprinter;
-	static HashMap<String, SuperAthlete> _mapSuperAthlete;
+	static HashMap<String, AthleteCyclist> _mapCyclist;
+	static HashMap<String, AthleteSprinter> _mapSprinter;
+	static HashMap<String, AthleteSuper> _mapSuper;
 	
 	// Enum
 	private enum _enmSport {
@@ -100,54 +104,52 @@ public class Main {
 	    // Load the array (athlete) to hashmap
 	    loadToHashmap();	    
 	    
-//	    //Begin Infinite Loop
-//	    while (true) {	    	
-//	    	
-//	    	// Reset 
-//	    	blnIsExitLoop  = false;
-//
-//	    	// Display
-//	    	myLibrary.displayMenu("Ozlympic Games MENU", _arrMenuOptionsSports);	    	
-//	    	intChoice = _objScanner.nextInt();
-//	    	
-//	    	// Choices
-//	    	switch (intChoice) {
-//	        case 1:
-//	        	loadAthlete(_enmSport.Swimming);
-//	            break;
-//	        case 2:
-//	        	loadAthlete(_enmSport.Cycling);
-//	        	break;
-//	        case 3:
-//	        	loadAthlete(_enmSport.Swimming);
-//	        	break;
-//	        case 0:
-//	        	if (isExitGame()) {
-//	        		// Exit the Loop
-//	        		blnIsExitLoop = true;
-//	        	}
-//	        	break;
-//	        default:
-//	        	// Do Nothing
-//	    	}	
-//
-//	    	if (blnIsExitLoop) { 
-//	    		// Only intChoice = 0 will execute this
-//	    		
-//	    		// Exit the loop
-//	    		break;
-//	    	} else {
-//	    		// All intChoice = 1,2,3 will execute process this except intChoice = 0
-//	    		
-//	    		// Clear the Screen
-//	    		myLibrary.clearScreen();	
-//	    	}
-//	    }
+	    //Begin Infinite Loop
+	    while (true) {	    	
+	    	
+	    	// Reset 
+	    	blnIsExitLoop  = false;
+
+	    	// Display
+	    	myLibrary.displayMenu("Ozlympic Games MENU", _arrMenuOptionsSports);	    	
+	    	intChoice = _objScanner.nextInt();
+	    	
+	    	// Choices
+	    	switch (intChoice) {
+	        case 1:
+	        	selectAthlete(_enmSport.Swimming);
+	            break;
+	        case 2:
+	        	selectAthlete(_enmSport.Cycling);
+	        	break;
+	        case 3:
+	        	selectAthlete(_enmSport.Swimming);
+	        	break;
+	        case 0:
+	        	if (isExitGame()) {
+	        		// Exit the Loop
+	        		blnIsExitLoop = true;
+	        	}
+	        	break;
+	        default:
+	        	// Do Nothing
+	    	}	
+
+	    	if (blnIsExitLoop) { 
+	    		// Only intChoice = 0 will execute this
+	    		
+	    		// Exit the loop
+	    		break;
+	    	} else {
+	    		// All intChoice = 1,2,3 will execute process this except intChoice = 0
+	    		// Do nothing 	
+	    	}
+	    }
 	}
 	
-	static void loadAthlete(_enmSport enmSport) {
+	static void selectAthlete(_enmSport enmSport) {
 		if (enmSport == _enmSport.Swimming) {
-			
+			createAthleteMenu(enmSport);
 		} else if (enmSport == _enmSport.Cycling) {
 			
 		} else if (enmSport == _enmSport.Running) {
@@ -164,7 +166,8 @@ public class Main {
 		//	_mapSwimmer.put("S01", new Swimmer("NS01"));
 		//	...
 		//
-		// String name = _mapSwimmer.get("NS01").getName();
+		// AthleteSwimmer swimmer = _mapSwimmer.get("NS01");
+		// String name = swimmer.getName();
 		
 		try {
 
@@ -180,20 +183,58 @@ public class Main {
 			}
 			
 			// Load Cyclist Data to HashMap
-			_mapCyclist = new HashMap<String, Cyclist>();
+			_mapCyclist = new HashMap<String, AthleteCyclist>();
 			for (int i = 0; i < _arrAthlete_Cyclist.length; i++) {
 				// Temp Variables
 				String uid = _arrAthlete_Cyclist[i][0];
 				String name = _arrAthlete_Cyclist[i][1];
 				String age = _arrAthlete_Cyclist[i][2];
 				String state = _arrAthlete_Cyclist[i][3];
-				_mapCyclist.put(uid, new Cyclist(uid,name,Integer.parseInt(age), state));			
+				_mapCyclist.put(uid, new AthleteCyclist(uid,name,Integer.parseInt(age), state));			
+			}
+			
+			// Load Sprinter Data to HashMap
+			_mapSprinter = new HashMap<String, AthleteSprinter>();
+			for (int i = 0; i < _arrAthlete_Sprinter.length; i++) {
+				// Temp Variables
+				String uid = _arrAthlete_Sprinter[i][0];
+				String name = _arrAthlete_Sprinter[i][1];
+				String age = _arrAthlete_Sprinter[i][2];
+				String state = _arrAthlete_Sprinter[i][3];
+				_mapSprinter.put(uid, new AthleteSprinter(uid,name,Integer.parseInt(age), state));			
+			}
+			
+			// Load Super Data to HashMap
+			_mapSuper = new HashMap<String, AthleteSuper>();
+			for (int i = 0; i < _arrAthlete_Super.length; i++) {
+				// Temp Variables
+				String uid = _arrAthlete_Super[i][0];
+				String name = _arrAthlete_Super[i][1];
+				String age = _arrAthlete_Super[i][2];
+				String state = _arrAthlete_Super[i][3];
+				_mapSuper.put(uid, new AthleteSuper(uid,name,Integer.parseInt(age), state));			
 			}
 			
 		} catch (Exception e) {
 			myLibrary.printIt(e.getMessage());
 		}
 		
+	}
+	
+	static void createAthleteMenu(_enmSport enmSport) {
+		if (enmSport == _enmSport.Swimming) {
+			// Load Athlete Names to Array from Hashmap
+			String strDelimitedNames = "";
+			for (Map.Entry<String, AthleteSwimmer> entry : _mapSwimmer.entrySet()) {
+				strDelimitedNames += ((strDelimitedNames != "") ? "," : "") + entry.getValue().getName();
+			}			
+			_arrMenuOptionsAthleteSwimmer = strDelimitedNames.split(",", -1);			
+			myLibrary.displayMenu("Select Athlete (Swimmer)", _arrMenuOptionsAthleteSwimmer);
+		} else if (enmSport == _enmSport.Cycling) {
+			
+		} else if (enmSport == _enmSport.Running) {
+			
+		}
 	}
 	
 	static boolean isExitGame() {
