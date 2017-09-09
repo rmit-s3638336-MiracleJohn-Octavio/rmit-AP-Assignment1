@@ -1,13 +1,17 @@
 
 public abstract class Athlete {
 
-	private String type;
-	
+	// Required Fields	
 	private String uid;
 	private String name;
 	private int age;
 	private String state;
-	private boolean isSelected = false;
+	
+	// User Defined Fields
+	private String type;					// Type of Athlete
+	private boolean isSelected = false;		// Is Athlete Selected
+	private int currentScore = 0;			// Current Game Score (Who's the winner?)
+	private int totalScore = 0;				// Overall Score
 	
 	// Constructor (For Subclass)
 	
@@ -67,6 +71,24 @@ public abstract class Athlete {
 	}
 	public void setSelected(boolean isSelected) {
 		this.isSelected = isSelected;
+	}
+	
+
+	public int getCurrentScore() {
+		return currentScore;
+	}
+
+	public void setCurrentScore(int currentScore) {
+		this.currentScore = currentScore;
+	}
+
+	
+	public int getTotalScore() {
+		return totalScore;
+	}
+
+	public void setTotalScore(int totalScore) {
+		this.totalScore = totalScore;
 	}
 	
 }

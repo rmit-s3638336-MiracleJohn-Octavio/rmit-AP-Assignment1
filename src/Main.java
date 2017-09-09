@@ -164,10 +164,14 @@ public class Main {
 			createAthleteMenu(enmSport);
 			// Get the input
 			strChoice = _objScanner.next();	    	
+			strChoice = strChoice.toUpperCase();
 	    	if (strChoice.equals("1")) {
 	    		// If the user wants to play the game
 	    		// ** PLay Game Here
 	    		break;
+	    	} else if (strChoice.equals("2")) {
+	    		// If the user decided to reset the selection
+	    		resetSelection();	    		
 	    	} else if (strChoice.equals("0")) {
 	    		// If the user decided not to go back to Main Menu
 	    		blnIsExitLoop = true;
@@ -190,19 +194,7 @@ public class Main {
 	    		// Do nothing 	
 	    	}
 			
-		}
-		
-		
-		
-//		if (enmSport == _enmSport.Swimming) {
-//			
-//		} else if (enmSport == _enmSport.Cycling) {
-//			
-//		} else if (enmSport == _enmSport.Running) {
-//			
-//		}
-		
-		
+		} // Exit the Loop
 	}
 	
 // ---------- Sub Methods
@@ -300,19 +292,24 @@ public class Main {
 			
 			// Generate delimited string from data
 			if (type == strSport) {
-				strDelimitedNames += ((strDelimitedNames != "") ? "," : "") + "[ " + uid+ " ] - " + name + ((isSelected) ? " (Selected)" : "");	
+				strDelimitedNames += ((strDelimitedNames != "") ? "," : "") 
+						+ "[ " + uid+ " ] - " 
+						+ name + ((isSelected) ? " (Selected)" : "");	
 			}	
 			
 			// Add the Super Athletes
 			if (type == _SUPER) {
-				strDelimitedNames += ((strDelimitedNames != "") ? "," : "") + "[ " + uid+ " ] - " + name + "*" + ((isSelected) ? " (Selected)" : "");;	
+				strDelimitedNames += ((strDelimitedNames != "") ? "," : "") 
+						+ "[ " + uid+ " ] - " 
+						+ name + "*" + ((isSelected) ? " (Selected)" : "");;	
 			}
 		}
 		
 		// Add the "Play" and "Back" option to delimiter
 		strDelimitedNames += ((strDelimitedNames != "") ? "," : "")
 					+ "~,"
-					+ "[  1  ] - Play Game," 
+					+ "[  1  ] - Play Game,"
+					+ "[  2  ] - Reset Selection,"
 					+ "[  0  ] - Back to Main Menu,"
 					+ "~,"
 					+ "Legend: * - Super Athletes";
@@ -373,26 +370,30 @@ public class Main {
 			if (uid.equals(strChoice)) {
 				blnReturnValue = true;
 				
-				// Update the selected field
-				if(type.equals(_SWIMMER)) {
-					AthleteSwimmer objAthlete = (AthleteSwimmer) entry.getValue();
-					objAthlete.setSelected(true);
-				} else if(type.equals(_CYCLIST)) {
-					AthleteCyclist objAthlete = (AthleteCyclist) entry.getValue();
-					objAthlete.setSelected(true);
-				} else if(type.equals(_SPRINTER)) {
-					AthleteSprinter objAthlete = (AthleteSprinter) entry.getValue();
-					objAthlete.setSelected(true);
-				} else if(type.equals(_SUPER)) {
-					AthleteSuper objAthlete = (AthleteSuper) entry.getValue();
-					objAthlete.setSelected(true);
-				}
+				// Update the isSelected field
+				Athlete objAthlete = (Athlete) entry.getValue();
+				objAthlete.setSelected(!objAthlete.isSelected());
 				break;
+				
 			}
 		}
 		
 		// Return the value
 		return blnReturnValue;
+
+	}
+	
+	static void resetSelection() {
+
+		// Sort the HashMap using TreeMap
+		TreeMap<String, Athlete> treeAthlete = new TreeMap<>(_mapAthlete);		
+		for(Entry<String, Athlete> entry : treeAthlete.entrySet()) {
+			
+			// Update the isSelected field
+			Athlete objAthlete = (Athlete) entry.getValue();
+			objAthlete.setSelected(false);
+			
+		} // End of Loop
 
 	}
 	
