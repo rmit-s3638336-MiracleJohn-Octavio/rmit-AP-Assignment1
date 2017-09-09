@@ -77,7 +77,10 @@ public class Main {
 		};
 	
 	// Hashmap
-	static HashMap<String, Swimmer> _mapSwimmer;
+	static HashMap<String, AthleteSwimmer> _mapSwimmer;
+	static HashMap<String, Cyclist> _mapCyclist;
+	static HashMap<String, Sprinter> _mapSprinter;
+	static HashMap<String, SuperAthlete> _mapSuperAthlete;
 	
 	// Enum
 	private enum _enmSport {
@@ -155,38 +158,38 @@ public class Main {
 // ---------- Sub Methods
 	
 	static void loadToHashmap() {
-		// Sample
-		// ------
-		// Map<String, InfoStor> mapper = new HashMap<>();
-		//	mapper.put("NS01", new InfoStor("NS01"));
+		// Sample / Pattern
+		// ----------------
+		// HashMap<String, Swimmer> _mapSwimmer = new HashMap<>();
+		//	_mapSwimmer.put("S01", new Swimmer("NS01"));
 		//	...
 		//
-		// InfoStor value = mapper.get("NS01");
-		// Integer memory = value.getMemory();
-		
-			
-//		_mapSwimmer = new HashMap<String, Swimmer>();		
-//		_mapSwimmer.put("1", new Swimmer("1","aaa",21,"VIC"));
-//		_mapSwimmer.put("2", new Swimmer("2","bbb",21,"VIC"));
-//		_mapSwimmer.put("3", new Swimmer("3","ccc",21,"VIC"));
-//				
-//		Swimmer swimmer = _mapSwimmer.get("2");		
-//		String bbb = swimmer.getName();
-//		String ccc = bbb + "xxx";
+		// String name = _mapSwimmer.get("NS01").getName();
 		
 		try {
 
-			_mapSwimmer = new HashMap<String, Swimmer>();
+			// Load Swimmer Data to HashMap
+			_mapSwimmer = new HashMap<String, AthleteSwimmer>();
 			for (int i = 0; i < _arrAthlete_Swimmer.length; i++) {
+				// Temp Variables
+				String uid = _arrAthlete_Swimmer[i][0];
+				String name = _arrAthlete_Swimmer[i][1];
+				String age = _arrAthlete_Swimmer[i][2];
+				String state = _arrAthlete_Swimmer[i][3];
+				_mapSwimmer.put(uid, new AthleteSwimmer(uid,name,Integer.parseInt(age), state));			
+			}
+			
+			// Load Cyclist Data to HashMap
+			_mapCyclist = new HashMap<String, Cyclist>();
+			for (int i = 0; i < _arrAthlete_Cyclist.length; i++) {
 				// Temp Variables
 				String uid = _arrAthlete_Cyclist[i][0];
 				String name = _arrAthlete_Cyclist[i][1];
 				String age = _arrAthlete_Cyclist[i][2];
 				String state = _arrAthlete_Cyclist[i][3];
-				_mapSwimmer.put(uid, new Swimmer(uid,name,Integer.parseInt(age), state));			
+				_mapCyclist.put(uid, new Cyclist(uid,name,Integer.parseInt(age), state));			
 			}
-			String xxx = _mapSwimmer.get("AC10").getName() + "xxx";
-			myLibrary.printIt("sdfasdfsa");
+			
 		} catch (Exception e) {
 			myLibrary.printIt(e.getMessage());
 		}

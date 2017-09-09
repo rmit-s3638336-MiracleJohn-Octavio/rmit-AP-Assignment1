@@ -1,7 +1,7 @@
 
-public class Swimmer extends Athlete {
+public class AthleteSwimmer extends Athlete {
 
-	public Swimmer(String uid, String name, int age, String state) {
+	public AthleteSwimmer(String uid, String name, int age, String state) {
 		super(uid, name, age, state);
 		// TODO Auto-generated constructor stub
 	}
