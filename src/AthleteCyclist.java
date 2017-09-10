@@ -22,10 +22,8 @@ public class AthleteCyclist extends Athlete {
 		}
 		
 		int intRandomNumber = myLibrary.getRandomNumber(intMin, intMax);
-		super.setCurrentPoint(intRandomNumber);
+		super.setCurrentSeconds(intRandomNumber);
 		
-		int intTotalScore = super.getTotalPoint();
-		super.setTotalPoint(intTotalScore + intRandomNumber);
 	}
 
 }

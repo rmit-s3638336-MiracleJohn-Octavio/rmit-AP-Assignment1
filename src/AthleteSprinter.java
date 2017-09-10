@@ -22,10 +22,7 @@ public class AthleteSprinter extends Athlete {
 		}
 		
 		int intRandomNumber = myLibrary.getRandomNumber(intMin, intMax);
-		super.setCurrentPoint(intRandomNumber);
-		
-		int intTotalPoint = super.getTotalPoint();
-		super.setTotalPoint(intTotalPoint + intRandomNumber);
+		super.setCurrentSeconds(intRandomNumber);
 	}
 
 }

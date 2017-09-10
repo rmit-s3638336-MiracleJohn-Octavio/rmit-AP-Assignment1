@@ -10,6 +10,7 @@ public abstract class Athlete {
 	// User Defined Fields
 	private String type;					// Type of Athlete
 	private boolean isSelected = false;		// Is Athlete Selected
+	private int currentSeconds = 0;			// Current Secons from the game
 	private int currentPoint = 0;			// Current Game Score (Who's the winner?)
 	private int totalPoint = 0;				// Overall Score
 		
@@ -90,6 +91,19 @@ public abstract class Athlete {
 	public void setTotalPoint(int totalPoint) {
 		this.totalPoint = totalPoint;
 	}
+	
+
+	public int getCurrentSeconds() {
+		return currentSeconds;
+	}
+
+
+	public void setCurrentSeconds(int currentSeconds) {
+		this.currentSeconds = currentSeconds;
+	}
+
+	
+	
 	
 }
 

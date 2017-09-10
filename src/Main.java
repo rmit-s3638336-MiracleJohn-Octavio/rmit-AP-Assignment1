@@ -1,8 +1,13 @@
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.SortedSet;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import com.sun.javafx.fxml.ParseTraceElement;
 
@@ -333,9 +338,66 @@ public class Main {
 				// Generate Random Numbers
 				if (isSelected && (type == _strSelectedAthlete || type == myLibrary._strSUPER)) {
 					entry.getValue().compete(_enmSelectedGame);
-					myLibrary.printIt(Integer.toString(entry.getValue().getCurrentPoint()));
+					myLibrary.printIt(Integer.toString(entry.getValue().getCurrentSeconds()));
 				}
 			}
+			
+			// Get the winners
+			int intLowest = getLowest(treeAthlete);
+			int intHighest = getHighest(treeAthlete);
+			int intRank = 1;
+			
+			String strDelimitedNames = 									         
+					" Code  | " + myLibrary.padRight("Name of Athlete", 23) + " | Selected | Point"
+							+ ","
+				  + "~";
+			
+			for (int i = intLowest; i < intHighest; i++) {
+				
+				// Search the selected Athlete
+				for(Entry<String, Athlete> entry : treeAthlete.entrySet()) {
+					
+					// Get the value and put it on local variable
+					String type = entry.getValue().getType();
+					String uid = entry.getValue().getUid();
+					String name = entry.getValue().getName();
+					boolean isSelected = entry.getValue().isSelected();
+					int intCurrentSeconds = entry.getValue().getCurrentSeconds();
+					
+					int intPoints = 0;
+					
+					// Generate Random Numbers
+					if (intCurrentSeconds == i) {
+						if (isSelected && (type == _strSelectedAthlete || type == myLibrary._strSUPER)) {						
+							myLibrary.printIt(Integer.toString(entry.getValue().getCurrentSeconds()));
+							
+							if (intRank == 1) {
+								intPoints = 5;
+							} else if (intRank == 1) {
+								intPoints = 2;
+							} else if (intRank == 1) {
+								intPoints = 1;
+							}
+							
+							strDelimitedNames += ((strDelimitedNames != "") ? "," : "") 
+									+ "[ " + uid+ " ] - " 
+									+ myLibrary.padRight(name, 23) + " - " + Integer.toString(intRank) + " -  " + Integer.toString(intPoints);
+							
+							// Increment
+							intRank ++;
+						}	
+					}
+				}
+			}
+			
+			// Add the "Back" option to delimiter
+			strDelimitedNames += ((strDelimitedNames != "") ? "," : "")
+						+ "~,"					
+						+ "[  0 ] - Back";
+			
+			myLibrary.printIt("Lowest: " + Integer.toString(intLowest) + "  Highest:  " + Integer.toString(intHighest) );
+			myLibrary.printIt(strDelimitedNames);
+			
 		} catch (Exception e) {
 			myLibrary.printIt(e.getMessage());
 		}	
@@ -343,6 +405,64 @@ public class Main {
 	
 // ---------- Sub Methods
 	
+	static int getLowest(TreeMap<String, Athlete> treeMap) {
+		
+		// Variables
+		int intReturnValue = 0;
+		int intLowest = 1000;
+		
+		for(Entry<String, Athlete> entry : treeMap.entrySet()) {
+			
+			// Get the value and put it on local variable
+			String type = entry.getValue().getType();
+			String uid = entry.getValue().getUid();
+			String name = entry.getValue().getName();
+			boolean isSelected = entry.getValue().isSelected();
+			int intCurrentSeconds = entry.getValue().getCurrentSeconds();
+			
+			if (isSelected && (type == _strSelectedAthlete || type == myLibrary._strSUPER)) {
+				if (intCurrentSeconds < intLowest) {
+					intLowest = intCurrentSeconds;
+				}	
+			}
+						
+		}
+		
+		// Return the value
+		intReturnValue = intLowest;
+		return intReturnValue;
+
+	} 
+	
+	static int getHighest(TreeMap<String, Athlete> treeMap) {
+		
+		// Variables
+		int intReturnValue = 0;
+		int intHighest = 0;
+		
+		for(Entry<String, Athlete> entry : treeMap.entrySet()) {
+			
+			// Get the value and put it on local variable
+			String type = entry.getValue().getType();
+			String uid = entry.getValue().getUid();
+			String name = entry.getValue().getName();
+			boolean isSelected = entry.getValue().isSelected();
+			int intCurrentSeconds = entry.getValue().getCurrentSeconds();
+			
+			if (isSelected && (type == _strSelectedAthlete || type == myLibrary._strSUPER)) {
+				if (intCurrentSeconds > intHighest) {
+					intHighest = intCurrentSeconds;
+				}	
+			}
+						
+		}
+		
+		// Return the value
+		intReturnValue = intHighest;
+		return intReturnValue;
+
+	} 
+		
 	static void loadAthleteToHashmap() {
 		try {
 
@@ -497,7 +617,7 @@ public class Main {
 			}
 		}
 		
-		// Add the "Play" and "Back" option to delimiter
+		// Add the "Back" option to delimiter
 		strDelimitedNames += ((strDelimitedNames != "") ? "," : "")
 					+ "~,"					
 					+ "[  0 ] - Back";
