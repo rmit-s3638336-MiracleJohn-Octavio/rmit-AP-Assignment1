@@ -23,3 +23,13 @@
 			myLibrary.displayMenu("Select Athlete (Swimmer)", _arrMenuOptionsAthleteSwimmer);
 			
 			*/
+			
+			
+			// Sample / Pattern
+		// ----------------
+		// HashMap<String, Swimmer> _mapSwimmer = new HashMap<>();
+		//	_mapSwimmer.put("S01", new Swimmer("NS01"));
+		//	...
+		//
+		// AthleteSwimmer swimmer = _mapSwimmer.get("NS01");
+		// String name = swimmer.getName();

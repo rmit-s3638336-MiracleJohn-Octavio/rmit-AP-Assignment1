@@ -1,10 +1,18 @@
 import java.io.IOException;
+import java.util.Random;
 
 public class myLibrary {
 
 	// Menu | Message Box
 	
-	static final int _intMenuWidth = 55;	
+	// Constant
+	static final int _intMenuWidth = 55;
+	// Constants
+	static final String _strSWIMMER = "Swimmer";
+	static final String _strCYCLIST = "Cyclist";
+	static final String _strSPRINTER = "Sprinter";
+	static final String _strSUPER = "Super";
+	
 	static void displayMenu(String strMenuTitle, String arrMenuOptions[]) {
 		// Pattern
     	// 			 1         2         3         4         5
@@ -129,6 +137,16 @@ public class myLibrary {
 		}
 	
 		return strReturnValue;
+	}
+	
+	static int getRandomNumber(int intMin, int intMax) {
+
+		if (intMin >= intMax) {
+			throw new IllegalArgumentException("max must be greater than min");
+		}
+
+		Random r = new Random();
+		return r.nextInt((intMax - intMin) + 1) + intMin;
 	}
 	
 	// Validation

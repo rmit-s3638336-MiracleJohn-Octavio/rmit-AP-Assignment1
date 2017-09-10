@@ -4,6 +4,8 @@ import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.TreeMap;
 
+import com.sun.javafx.fxml.ParseTraceElement;
+
 public class Main {
 
 // ---------- Variables
@@ -29,55 +31,30 @@ public class Main {
 	// Array - Athlete Data
 	static String _arrAthlete_Swimmer[][]= 
 		{
-			{"S01","Ian Thorpe","21","VIC"},
-			{"S02","Dawn Fraser","23","VIC"},
-			{"S03","Libby Trickett","24","QLD"},
-			{"S04","Murray Rose","21","QLD"},
-			{"S05","Grant Hackett","20","NSW"},
-			{"S06","Michael Klim","23","NSW"},
-			{"S07","John Devitt","21","ACT"},
-			{"S08","Michael Wenden","24","ACT"},
-			{"S09","Todd Pearson","22","SA"},
-			{"S10","David Theile","21","SA"}
+			{"S1","Ian Thorpe","21","VIC"},
+			{"S2","Dawn Fraser","23","VIC"},
+			{"S3","Libby Trickett","24","QLD"},
+			{"S4","David Theile","21","SA"}
 		};
 	static String _arrAthlete_Cyclist[][]= 
 		{
-			{"C01","Christopher Scott","21","VIC"},
-			{"C02","Mark le Flohic","23","VIC"},
-			{"C03","Greg Ball","24","QLD"},
-			{"C04","Kial Stewart","21","QLD"},
-			{"C05","Peter Brooks","20","NSW"},
-			{"C06","Robert Crowe","23","NSW"},
-			{"C07","David Short","21","ACT"},
-			{"C08","Kieran Modra","24","ACT"},
-			{"C09","Michael Gallagher","22","SA"},
-			{"C10","Tyson Lawrence","21","SA"}
-		};
+			{"C1","Christopher Scott","21","VIC"},
+			{"C2","Mark le Flohic","23","VIC"},
+			{"C3","Greg Ball","24","QLD"},
+			{"C4","Tyson Lawrence","21","SA"}		};
 	static String _arrAthlete_Sprinter[][]= 
 		{
-			{"R01","Matt Shirvington","21","VIC"},
-			{"R02","Patrick Johnson","23","VIC"},
-			{"R03","Joshua Ross","24","QLD"},
-			{"R04","Otis Gowa","21","QLD"},
-			{"R05","Tim Leathart","20","NSW"},
-			{"R06","Joshua Clarke","23","NSW"},
-			{"R07","Alex Hartmann","21","ACT"},
-			{"R08","Steve Brimacombe","24","ACT"},
-			{"R09","Damien Marsh","22","SA"},
-			{"R10","Gerard Barrett","21","SA"}
+			{"R1","Matt Shirvington","21","VIC"},
+			{"R2","Patrick Johnson","23","VIC"},
+			{"R3","Joshua Ross","24","QLD"},
+			{"R4","Gerard Barrett","21","SA"}
 		};
 	static String _arrAthlete_Super[][]= 
 		{
-			{"X01","Craig Alexander","21","VIC"},
-			{"X02","Greg Bennett","23","VIC"},
-			{"X03","Chris McCormack","24","QLD"},
-			{"X04","Peter Robertson","21","QLD"},
-			{"X05","Brendan Sexton","20","NSW"},
-			{"X06","Greg Stewart","23","NSW"},
-			{"X07","Ryan Fisher","21","ACT"},
-			{"X08","Simon Thompson","24","ACT"},
-			{"X09","Pete Jacobs","22","SA"},
-			{"X10","Luke McKenzie","21","SA"}
+			{"X1","Craig Alexander","21","VIC"},
+			{"X2","Greg Bennett","23","VIC"},
+			{"X3","Chris McCormack","24","QLD"},
+			{"X4","Luke McKenzie","21","SA"}
 		};
 	
 	// Hashmap
@@ -89,12 +66,10 @@ public class Main {
 		Cycling,
 		Running;
 	}
-	
-	// Constants
-	static final String _SWIMMER = "Swimmer";
-	static final String _CYCLIST = "Cyclist";
-	static final String _SPRINTER = "Sprinter";
-	static final String _SUPER = "Super";
+	private enum _enmSetSelection {
+		SelectAll,
+		ClearAll
+	}
 	
 // ---------- Main Methods
 	
@@ -166,12 +141,14 @@ public class Main {
 			strChoice = _objScanner.next();	    	
 			strChoice = strChoice.toUpperCase();
 	    	if (strChoice.equals("1")) {
-	    		// If the user wants to play the game
-	    		// ** PLay Game Here
+	    		playGame(enmSport);
 	    		break;
 	    	} else if (strChoice.equals("2")) {
-	    		// If the user decided to reset the selection
-	    		resetSelection();	    		
+	    		// If the user decided to select all selection
+	    		setSelection(_enmSetSelection.SelectAll,enmSport);
+	    	} else if (strChoice.equals("3")) {
+	    		// If the user decided to clear all selection
+	    		setSelection(_enmSetSelection.ClearAll,enmSport);
 	    	} else if (strChoice.equals("0")) {
 	    		// If the user decided not to go back to Main Menu
 	    		blnIsExitLoop = true;
@@ -197,18 +174,46 @@ public class Main {
 		} // Exit the Loop
 	}
 	
+	static void playGame(_enmSport enmSport) {
+		
+		// Variables
+		String strSport = "";
+				
+		try {
+			
+			// Evaluate the sport
+			if (enmSport == _enmSport.Swimming) {
+				strSport = myLibrary._strSWIMMER;
+			} else if (enmSport == _enmSport.Cycling) {
+				strSport = myLibrary._strCYCLIST;
+			} else if (enmSport == _enmSport.Running) {
+				strSport = myLibrary._strSPRINTER;
+			}
+			
+			// Sort the HashMap using TreeMap
+			TreeMap<String, Athlete> treeAthlete = new TreeMap<>(_mapAthlete);		
+			for(Entry<String, Athlete> entry : treeAthlete.entrySet()) {
+				
+				// Get the value and put it on local variable
+				String type = entry.getValue().getType();
+				String uid = entry.getValue().getUid();
+				String name = entry.getValue().getName();
+				boolean isSelected = entry.getValue().isSelected();
+				
+				// Generate Random Numbers
+				if (isSelected && (type == strSport || type == myLibrary._strSUPER)) {
+					entry.getValue().compete();
+					myLibrary.printIt(Integer.toString(entry.getValue().getCurrentScore()));
+				}
+			}
+		} catch (Exception e) {
+			myLibrary.printIt(e.getMessage());
+		}	
+	}
+	
 // ---------- Sub Methods
 	
 	static void loadToHashmap() {
-		// Sample / Pattern
-		// ----------------
-		// HashMap<String, Swimmer> _mapSwimmer = new HashMap<>();
-		//	_mapSwimmer.put("S01", new Swimmer("NS01"));
-		//	...
-		//
-		// AthleteSwimmer swimmer = _mapSwimmer.get("NS01");
-		// String name = swimmer.getName();
-		
 		try {
 
 			// Load Swimmer Data to HashMap
@@ -266,19 +271,20 @@ public class Main {
 		 */
 		
 		// Variables
+		int intSelected = 0;
 		String strSport = "";										// Name of Sport Selected
 		String arrMenuOptions[] = {};								// Array that will hold the Menu Options
-		String strDelimitedNames = 
-				" Code   | " + myLibrary.padRight("Name of Athlete", 30) + " | TScore"
+		String strDelimitedNames = 									         
+				" Code  | " + myLibrary.padRight("Name of Athlete", 23) + " | Selected | Score"
 						+ ","
 			  + "~";	// This will be the column header
 		
 		if (enmSport == _enmSport.Swimming) {
-			strSport = _SWIMMER;
+			strSport = myLibrary._strSWIMMER;
 		} else if (enmSport == _enmSport.Cycling) {
-			strSport = _CYCLIST;
+			strSport = myLibrary._strCYCLIST;
 		} else if (enmSport == _enmSport.Running) {
-			strSport = _SPRINTER;
+			strSport = myLibrary._strSPRINTER;
 		}
 		
 		// Sort the HashMap using TreeMap
@@ -291,29 +297,35 @@ public class Main {
 			String name = entry.getValue().getName();
 			boolean isSelected = entry.getValue().isSelected();
 			
+			String strTotalScore = Integer.toString(entry.getValue().getTotalScore());
+			
+			String strSelectedMark = ((isSelected) ? "*" : " ");
+			intSelected += ((isSelected) ? 1 : 0);
+			
 			// Generate delimited string from data
 			if (type == strSport) {
 				strDelimitedNames += ((strDelimitedNames != "") ? "," : "") 
 						+ "[ " + uid+ " ] - " 
-						+ myLibrary.padRight(name + ((isSelected) ? " (Selected)" : ""), 30) + " | 0";	
+						+ myLibrary.padRight(name, 23) + " |     " + strSelectedMark + "    | " + strTotalScore;	
 			}	
 			
 			// Add the Super Athletes
-			if (type == _SUPER) {
+			if (type == myLibrary._strSUPER) {
 				strDelimitedNames += ((strDelimitedNames != "") ? "," : "") 
 						+ "[ " + uid+ " ] - " 
-						+ myLibrary.padRight(name + "*" + ((isSelected) ? " (Selected)" : ""), 30) + " | 0";	
+						+ myLibrary.padRight(name + " (s)", 23) + " |     " + strSelectedMark + "    | " + strTotalScore;	
 			}
 		}
 		
 		// Add the "Play" and "Back" option to delimiter
 		strDelimitedNames += ((strDelimitedNames != "") ? "," : "")
 					+ "~,"
-					+ "[  1  ] - Play Game,"
-					+ "[  2  ] - Reset Selection,"
-					+ "[  0  ] - Back to Main Menu,"
+					+ "[  1 ] - Play Game,"
+					+ "[  2 ] - Select All,"
+					+ "[  3 ] - Clear All,"
+					+ "[  0 ] - Back to Main Menu,"
 					+ "~,"
-					+ "Legend: * - Super Athletes";
+					+ "Legend: (s) - Super Athletes  | Selected: " + Integer.toString(intSelected);
 
 		// Split the delimited string and put it to an array
 		arrMenuOptions = strDelimitedNames.split(",", -1);
@@ -383,16 +395,35 @@ public class Main {
 		return blnReturnValue;
 
 	}
-	
-	static void resetSelection() {
+		
+	static void setSelection(_enmSetSelection enmSetSelection, _enmSport enmSport) {
 
+		// Variables
+		String strSport = "";
+		
+		// Evaluate the sport
+		if (enmSport == _enmSport.Swimming) {
+			strSport = myLibrary._strSWIMMER;
+		} else if (enmSport == _enmSport.Cycling) {
+			strSport = myLibrary._strCYCLIST;
+		} else if (enmSport == _enmSport.Running) {
+			strSport = myLibrary._strSPRINTER;
+		}
+		
 		// Sort the HashMap using TreeMap
 		TreeMap<String, Athlete> treeAthlete = new TreeMap<>(_mapAthlete);		
 		for(Entry<String, Athlete> entry : treeAthlete.entrySet()) {
+			String type = entry.getValue().getType();
 			
-			// Update the isSelected field
-			Athlete objAthlete = (Athlete) entry.getValue();
-			objAthlete.setSelected(false);
+			if ((type == strSport) || (type == myLibrary._strSUPER) ) {
+				// Update the isSelected field
+				Athlete objAthlete = (Athlete) entry.getValue();
+				if (enmSetSelection == _enmSetSelection.SelectAll) {
+					objAthlete.setSelected(true);
+				} else {
+					objAthlete.setSelected(false);	
+				}	
+			}
 			
 		} // End of Loop
 

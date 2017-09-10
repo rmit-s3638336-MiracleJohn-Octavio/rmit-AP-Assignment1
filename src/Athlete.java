@@ -12,7 +12,7 @@ public abstract class Athlete {
 	private boolean isSelected = false;		// Is Athlete Selected
 	private int currentScore = 0;			// Current Game Score (Who's the winner?)
 	private int totalScore = 0;				// Overall Score
-	
+		
 	// Constructor (For Subclass)
 	
 	public Athlete(String type, String uid, String name, int age, String state) {
@@ -26,7 +26,7 @@ public abstract class Athlete {
 		 
 	// User defined Method/s
 	
-	public abstract void compete();
+	public abstract void compete(String strSport);
 	
 	// Getters and Setters
 	

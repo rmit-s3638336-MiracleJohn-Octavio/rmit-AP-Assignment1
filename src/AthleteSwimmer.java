@@ -7,9 +7,12 @@ public class AthleteSwimmer extends Athlete {
 	}
 
 	@Override
-	public void compete() {
-		// TODO Auto-generated method stub
+	public void compete(String strSport) {
+		int intRandomNumber = myLibrary.getRandomNumber(100, 200);
+		super.setCurrentScore(intRandomNumber);
 		
+		int intTotalScore = super.getTotalScore();
+		super.setTotalScore(intTotalScore + intRandomNumber);
 	}
 
 }

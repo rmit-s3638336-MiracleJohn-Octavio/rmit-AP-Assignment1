@@ -6,7 +6,19 @@ public class AthleteSuper extends Athlete {
 	}
 
 	@Override
-	public void compete() {
+	public void compete(String strSport) {
+		int intMin;
+		int intMax;
+		
+		if (strSport == ) {
+			
+		}
+		
+		int intRandomNumber = myLibrary.getRandomNumber(100, 200);
+		super.setCurrentScore(intRandomNumber);
+		
+		int intTotalScore = super.getTotalScore();
+		super.setTotalScore(intTotalScore + intRandomNumber);
 	}
 
 }
