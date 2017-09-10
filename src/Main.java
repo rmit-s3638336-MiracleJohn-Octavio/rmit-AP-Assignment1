@@ -383,6 +383,11 @@ public class Main {
 								intPoints = 1;								
 							} 
 							
+							// Update the data
+							entry.getValue().setCurrentPoint(intPoints);
+							int intTotalPoints = entry.getValue().getTotalPoint();
+							entry.getValue().setTotalPoint(intTotalPoints + intPoints);
+							
 							strDelimitedNames += ((strDelimitedNames != "") ? "," : "") 
 									+ "[ " + uid+ " ] - " 
 									+ myLibrary.padRight(name, 24) + "| " 
@@ -406,7 +411,7 @@ public class Main {
 			if (strWinner == _strPredictedCode) {
 				strMessage = "Congratulations!";
 			} else {
-				strMessage = "Better luck next time!";
+				strMessage = "Uncessfull! Better luck next time!";
 			}
 			strDelimitedNames += ((strDelimitedNames != "") ? "," : "")
 						+ "~,"
