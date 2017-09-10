@@ -15,8 +15,9 @@ public class Main {
 	
 	static myLibrary._enmGame _enmSelectedGame;
 	static String _strSelectedGame = "";
+	static String _strSelectedAthlete = "";
 	
-	String _strPredictedWinner = "";
+	static String _strPredictedWinner = "";
 	
 	// Array
 	static String _arrMenuOptionMain[]= {
@@ -108,7 +109,7 @@ public class Main {
 	    			"Code  | Description",
 	    			"~",
 	    			"[ 1 ] - Select a game to run " + (_strSelectedGame == "" ? "" : "[ " + _strSelectedGame + " ]") + " ",
-	    			"[ 2 ] - Predict the winner of the game",
+	    			"[ 2 ] - Predict the winner of the game " + (_strPredictedWinner == "" ? "" : "[ " + _strPredictedWinner + " ]") + " ",
 	    			"[ 3 ] - Start the game",
 	    			"[ 4 ] - Display the final results of all games",
 	    			"[ 5 ] - Display the points of all athletes",
@@ -129,7 +130,7 @@ public class Main {
 	        	// Predict the winner of the game
 	        	if (_strSelectedGame == "") {
 	        		// Display invalid key choice
-		    		myLibrary.displayMessagePrompt("Please select a game to run first!");
+		    		myLibrary.displayMessagePrompt("Please choose 'Select a game to run' first!");
 				} else {
 					// Select the athlete and predict the winner
 					selectAthlete();	
@@ -179,16 +180,19 @@ public class Main {
 	        case 1:
 	        	_enmSelectedGame = myLibrary._enmGame.Swimming;
 	        	_strSelectedGame = "Swimming";
+	        	_strSelectedAthlete = "Swimmer";
 	        	blnIsExitLoop = true;
 	            break;
 	        case 2:
 	        	_enmSelectedGame = myLibrary._enmGame.Cycling;
 	        	_strSelectedGame = "Cycling";
+	        	_strSelectedAthlete = "Cyclist";
 	        	blnIsExitLoop = true;
 	        	break;
 	        case 3:
 	        	_enmSelectedGame = myLibrary._enmGame.Running;
 	        	_strSelectedGame = "Running";
+	        	_strSelectedAthlete = "Sprinter";
 	        	blnIsExitLoop = true;
 	        	break;
 	        case 0:
@@ -235,7 +239,11 @@ public class Main {
 	    		setSelection(_enmSetSelection.ClearAll,_enmSelectedGame);
 	    	} else if (strChoice.equals("3")) {
 	    		// Predict the winner
-	    		predictWinner();
+	    		if (predictWinner()) {
+	    			// If the user had predicted a winner go to Main
+		    		blnIsExitLoop = true;
+		    		break;
+				}
 	    	} else if (strChoice.equals("0")) {
 	    		// If the user decided not to go back to Main Menu
 	    		blnIsExitLoop = true;
@@ -261,9 +269,10 @@ public class Main {
 		} // Exit the Loop
 	}
 	
-	static void predictWinner() {
+	static boolean predictWinner() {
 		
 		// Local Variables
+		boolean blnReturnValue = false;
 		String strChoice;
 		boolean blnIsExitLoop;
 
@@ -277,22 +286,15 @@ public class Main {
 			// Get the input
 			strChoice = _objScanner.next();	    	
 			strChoice = strChoice.toUpperCase();
-	    	if (strChoice.equals("1")) {
-	    		// If the user decided to select all selection
-	    		setSelection(_enmSetSelection.SelectAll,_enmSelectedGame);
-	    	} else if (strChoice.equals("2")) {
-	    		// If the user decided to clear all selection
-	    		setSelection(_enmSetSelection.ClearAll,_enmSelectedGame);
-	    	} else if (strChoice.equals("3")) {
-	    		// Predict the winner
-	    		predictWinner();
-	    	} else if (strChoice.equals("0")) {
+	    	if (strChoice.equals("0")) {
 	    		// If the user decided not to go back to Main Menu
 	    		blnIsExitLoop = true;
 	    		break;
 	    	} else {
-	    		if (isAthleteCodeValid(strChoice)) {
-					// Do nothing 
+	    		if (isSelectedAthleteCodeValid(strChoice)) {
+	    			blnReturnValue = true;
+	    			blnIsExitLoop = true;
+		    		break; 
 				} else {
 					// Display invalid key choice
 		    		myLibrary.displayMessagePrompt("You have selected an invalid choice!");	
@@ -309,24 +311,14 @@ public class Main {
 	    	}
 			
 		} // Exit the Loop
+		
+		return blnReturnValue;
 
 	}
 	
 	static void playGame() {
 		
-		// Variables
-		String strGame = "";
-				
 		try {
-			
-			// Evaluate the Game
-			if (_enmSelectedGame == myLibrary._enmGame.Swimming) {
-				strGame = myLibrary._strSWIMMER;
-			} else if (_enmSelectedGame == myLibrary._enmGame.Cycling) {
-				strGame = myLibrary._strCYCLIST;
-			} else if (_enmSelectedGame == myLibrary._enmGame.Running) {
-				strGame = myLibrary._strSPRINTER;
-			}
 			
 			// Sort the HashMap using TreeMap
 			TreeMap<String, Athlete> treeAthlete = new TreeMap<>(_mapAthlete);		
@@ -339,7 +331,7 @@ public class Main {
 				boolean isSelected = entry.getValue().isSelected();
 				
 				// Generate Random Numbers
-				if (isSelected && (type == strGame || type == myLibrary._strSUPER)) {
+				if (isSelected && (type == _strSelectedAthlete || type == myLibrary._strSUPER)) {
 					entry.getValue().compete(_enmSelectedGame);
 					myLibrary.printIt(Integer.toString(entry.getValue().getCurrentPoint()));
 				}
@@ -426,23 +418,23 @@ public class Main {
 			String name = entry.getValue().getName();
 			boolean isSelected = entry.getValue().isSelected();
 			
-			String strTotalScore = Integer.toString(entry.getValue().getTotalPoint());
+			String strTotalPoint = Integer.toString(entry.getValue().getTotalPoint());
 			
 			String strSelectedMark = ((isSelected) ? "*" : " ");
 			intSelected += ((isSelected) ? 1 : 0);
 			
 			// Generate delimited string from data
-			if (type == _strSelectedGame) {
+			if (type == _strSelectedAthlete) {
 				strDelimitedNames += ((strDelimitedNames != "") ? "," : "") 
 						+ "[ " + uid+ " ] - " 
-						+ myLibrary.padRight(name, 23) + " |     " + strSelectedMark + "    | " + strTotalScore;	
+						+ myLibrary.padRight(name, 23) + " |     " + strSelectedMark + "    | " + strTotalPoint;	
 			}	
 			
 			// Add the Super Athletes
 			if (type == myLibrary._strSUPER) {
 				strDelimitedNames += ((strDelimitedNames != "") ? "," : "") 
 						+ "[ " + uid+ " ] - " 
-						+ myLibrary.padRight(name + " (s)", 23) + " |     " + strSelectedMark + "    | " + strTotalScore;	
+						+ myLibrary.padRight(name + " (s)", 23) + " |     " + strSelectedMark + "    | " + strTotalPoint;	
 			}
 		}
 		
@@ -461,7 +453,7 @@ public class Main {
 		arrMenuOptions = strDelimitedNames.split(",", -1);
 		
 		// Display the Menu
-		myLibrary.displayMenu("Select 4-8 Athletes (" + _strSelectedGame + ")..", arrMenuOptions);
+		myLibrary.displayMenu("Select 4-8 " + _strSelectedAthlete + "s..", arrMenuOptions);
 	}
 	
 	static void createMenuPredict() {
@@ -471,11 +463,9 @@ public class Main {
 		 * - It will use the HashMap Data to populate the Menu Options 
 		 */
 		
-		// Variables
-		int intSelected = 0;
 		String arrMenuOptions[] = {};								// Array that will hold the Menu Options
 		String strDelimitedNames = 									         
-				" Code  | " + myLibrary.padRight("Name of Athlete", 23) + " | Selected | Point"
+				" Code  | " + myLibrary.padRight("Name of Athlete", 23) + myLibrary.padLeft("", 10) + "| Point"
 						+ ","
 			  + "~";	// This will be the column header
 		
@@ -489,42 +479,34 @@ public class Main {
 			String name = entry.getValue().getName();
 			boolean isSelected = entry.getValue().isSelected();
 			
-			String strTotalScore = Integer.toString(entry.getValue().getTotalPoint());
+			String strTotalPoint = Integer.toString(entry.getValue().getTotalPoint());
 			
 			String strSelectedMark = ((isSelected) ? "*" : " ");
-			intSelected += ((isSelected) ? 1 : 0);
-			
 			// Generate delimited string from data
-			if (type == _strSelectedGame) {
+			if (type == _strSelectedAthlete && isSelected) {
 				strDelimitedNames += ((strDelimitedNames != "") ? "," : "") 
 						+ "[ " + uid+ " ] - " 
-						+ myLibrary.padRight(name, 23) + " |     " + strSelectedMark + "    | " + strTotalScore;	
+						+ myLibrary.padRight(name, 23) + myLibrary.padLeft("", 10) + "| " + strTotalPoint;	
 			}	
 			
 			// Add the Super Athletes
-			if (type == myLibrary._strSUPER) {
+			if (type == myLibrary._strSUPER && isSelected) {
 				strDelimitedNames += ((strDelimitedNames != "") ? "," : "") 
 						+ "[ " + uid+ " ] - " 
-						+ myLibrary.padRight(name + " (s)", 23) + " |     " + strSelectedMark + "    | " + strTotalScore;	
+						+ myLibrary.padRight(name + " (s)", 23) + myLibrary.padLeft("", 10) + "| " + strTotalPoint;	
 			}
 		}
 		
 		// Add the "Play" and "Back" option to delimiter
 		strDelimitedNames += ((strDelimitedNames != "") ? "," : "")
 					+ "~,"					
-					+ "[  1 ] - Select All,"
-					+ "[  2 ] - Clear All,"
-					+ "[  3 ] - Predict the winner,"
-					+ "~,"
-					+ "[  0 ] - Back to Main Menu,"
-					+ "~,"
-					+ "Legend: (s) - Super Athletes  | Selected: " + Integer.toString(intSelected);
+					+ "[  0 ] - Back";
 
 		// Split the delimited string and put it to an array
 		arrMenuOptions = strDelimitedNames.split(",", -1);
 		
 		// Display the Menu
-		myLibrary.displayMenu("Select 4-8 Athletes (" + _strSelectedGame + ")..", arrMenuOptions);
+		myLibrary.displayMenu("Predict the winner..", arrMenuOptions);
 	}
 	
 	static boolean isExitGame() {
@@ -579,6 +561,35 @@ public class Main {
 				// Update the isSelected field
 				Athlete objAthlete = (Athlete) entry.getValue();
 				objAthlete.setSelected(!objAthlete.isSelected());
+				break;
+				
+			}
+		}
+		
+		// Return the value
+		return blnReturnValue;
+
+	}
+	
+	static boolean isSelectedAthleteCodeValid(String strChoice) {
+
+		// Local Variables
+		boolean blnReturnValue = false;
+		
+		// Sort the HashMap using TreeMap
+		TreeMap<String, Athlete> treeAthlete = new TreeMap<>(_mapAthlete);		
+		for(Entry<String, Athlete> entry : treeAthlete.entrySet()) {
+			
+			// Get the value and put it on local variable
+			String type = entry.getValue().getType();
+			String uid = entry.getValue().getUid();
+			boolean isSelected = entry.getValue().isSelected();
+			
+			// Generate delimited string from data
+			if (uid.equals(strChoice) && isSelected) {
+				blnReturnValue = true;
+				
+				_strPredictedWinner = uid;
 				break;
 				
 			}
