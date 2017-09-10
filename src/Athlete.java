@@ -10,8 +10,8 @@ public abstract class Athlete {
 	// User Defined Fields
 	private String type;					// Type of Athlete
 	private boolean isSelected = false;		// Is Athlete Selected
-	private int currentScore = 0;			// Current Game Score (Who's the winner?)
-	private int totalScore = 0;				// Overall Score
+	private int currentPoint = 0;			// Current Game Score (Who's the winner?)
+	private int totalPoint = 0;				// Overall Score
 		
 	// Constructor (For Subclass)
 	
@@ -26,7 +26,7 @@ public abstract class Athlete {
 		 
 	// User defined Method/s
 	
-	public abstract void compete(myLibrary._enmSport enmSport);
+	public abstract void compete(myLibrary._enmGame enmGame);
 	
 	// Getters and Setters
 	
@@ -74,21 +74,21 @@ public abstract class Athlete {
 	}
 	
 
-	public int getCurrentScore() {
-		return currentScore;
+	public int getCurrentPoint() {
+		return currentPoint;
 	}
 
-	public void setCurrentScore(int currentScore) {
-		this.currentScore = currentScore;
+	public void setCurrentPoint(int currentPoint) {
+		this.currentPoint = currentPoint;
 	}
 
 	
-	public int getTotalScore() {
-		return totalScore;
+	public int getTotalPoint() {
+		return totalPoint;
 	}
 
-	public void setTotalScore(int totalScore) {
-		this.totalScore = totalScore;
+	public void setTotalPoint(int totalPoint) {
+		this.totalPoint = totalPoint;
 	}
 	
 }

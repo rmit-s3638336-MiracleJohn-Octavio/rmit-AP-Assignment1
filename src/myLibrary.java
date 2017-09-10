@@ -14,7 +14,7 @@ public class myLibrary {
 	static final String _strSUPER = "Super";
 	
 	// Enums
-	static enum _enmSport {
+	static enum _enmGame {
 		Swimming,
 		Cycling,
 		Running;
@@ -45,7 +45,8 @@ public class myLibrary {
 	}	
 	static void displayMenuTitle(String strMessage) {
 		displaySeparator();
-		printIt("|" + padCenter(strMessage, _intMENU_WIDTH-2) + "|");
+		printIt("|" + padCenter("** Ozlympic Game **", _intMENU_WIDTH-2) + "|");
+		printIt("|" + padRight(" " + strMessage, _intMENU_WIDTH-2) + "|");
 		displaySeparator();
 	}
 	static void displayMenuOptions(String arrValue[]) {
@@ -99,7 +100,7 @@ public class myLibrary {
 	    return String.format("%1$-" + intCount + "s", strValue);
 	}
 	
-	public String padLeft(String strValue, int intCount) {
+	static String padLeft(String strValue, int intCount) {
 	    return String.format("%1$" + intCount + "s", strValue);
 	}
 	

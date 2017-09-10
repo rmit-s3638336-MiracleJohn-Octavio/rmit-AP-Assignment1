@@ -7,26 +7,26 @@ public class AthleteSwimmer extends Athlete {
 	}
 
 	@Override
-	public void compete(myLibrary._enmSport enmSport) {
+	public void compete(myLibrary._enmGame enmGame) {
 		int intMin = 0;
 		int intMax = 0;
 		
-		if (enmSport == myLibrary._enmSport.Swimming) {
+		if (enmGame == myLibrary._enmGame.Swimming) {
 			intMin = 100;
 			intMax = 200;
-		} else if (enmSport == myLibrary._enmSport.Cycling) {
+		} else if (enmGame == myLibrary._enmGame.Cycling) {
 			intMin = 500;
 			intMax = 800;
-		} else if (enmSport == myLibrary._enmSport.Running) {
+		} else if (enmGame == myLibrary._enmGame.Running) {
 			intMin = 10;
 			intMax = 20;
 		}
 		
 		int intRandomNumber = myLibrary.getRandomNumber(intMin, intMax);
-		super.setCurrentScore(intRandomNumber);
+		super.setCurrentPoint(intRandomNumber);
 		
-		int intTotalScore = super.getTotalScore();
-		super.setTotalScore(intTotalScore + intRandomNumber);
+		int intTotalPoint = super.getTotalPoint();
+		super.setTotalPoint(intTotalPoint + intRandomNumber);
 	}
 
 }
