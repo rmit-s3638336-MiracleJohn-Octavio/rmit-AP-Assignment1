@@ -60,12 +60,7 @@ public class Main {
 	// Hashmap
 	static HashMap<String, Athlete> _mapAthlete;				// This will hold all the Athletes
 	 
-	// Enum
-	private enum _enmSport {
-		Swimming,
-		Cycling,
-		Running;
-	}
+	// Enum	
 	private enum _enmSetSelection {
 		SelectAll,
 		ClearAll
@@ -95,13 +90,13 @@ public class Main {
 	    	// Choices
 	    	switch (intChoice) {
 	        case 1:
-	        	selectAthlete(_enmSport.Swimming);
+	        	selectAthlete(myLibrary._enmSport.Swimming);
 	            break;
 	        case 2:
-	        	selectAthlete(_enmSport.Cycling);
+	        	selectAthlete(myLibrary._enmSport.Cycling);
 	        	break;
 	        case 3:
-	        	selectAthlete(_enmSport.Running);
+	        	selectAthlete(myLibrary._enmSport.Running);
 	        	break;
 	        case 0:
 	        	if (isExitGame()) {
@@ -124,7 +119,7 @@ public class Main {
 	    }
 	}
 	
-	static void selectAthlete(_enmSport enmSport) {
+	static void selectAthlete(myLibrary._enmSport enmSport) {
 		
 		// Local Variables
 		String strChoice;
@@ -174,7 +169,7 @@ public class Main {
 		} // Exit the Loop
 	}
 	
-	static void playGame(_enmSport enmSport) {
+	static void playGame(myLibrary._enmSport enmSport) {
 		
 		// Variables
 		String strSport = "";
@@ -182,11 +177,11 @@ public class Main {
 		try {
 			
 			// Evaluate the sport
-			if (enmSport == _enmSport.Swimming) {
+			if (enmSport == myLibrary._enmSport.Swimming) {
 				strSport = myLibrary._strSWIMMER;
-			} else if (enmSport == _enmSport.Cycling) {
+			} else if (enmSport == myLibrary._enmSport.Cycling) {
 				strSport = myLibrary._strCYCLIST;
-			} else if (enmSport == _enmSport.Running) {
+			} else if (enmSport == myLibrary._enmSport.Running) {
 				strSport = myLibrary._strSPRINTER;
 			}
 			
@@ -202,7 +197,7 @@ public class Main {
 				
 				// Generate Random Numbers
 				if (isSelected && (type == strSport || type == myLibrary._strSUPER)) {
-					entry.getValue().compete();
+					entry.getValue().compete(enmSport);
 					myLibrary.printIt(Integer.toString(entry.getValue().getCurrentScore()));
 				}
 			}
@@ -263,7 +258,7 @@ public class Main {
 		
 	}
 	
-	static void createAthleteMenu(_enmSport enmSport) {
+	static void createAthleteMenu(myLibrary._enmSport enmSport) {
 		
 		/*
 		 * This will create a menu for a selected Sport
@@ -279,11 +274,11 @@ public class Main {
 						+ ","
 			  + "~";	// This will be the column header
 		
-		if (enmSport == _enmSport.Swimming) {
+		if (enmSport == myLibrary._enmSport.Swimming) {
 			strSport = myLibrary._strSWIMMER;
-		} else if (enmSport == _enmSport.Cycling) {
+		} else if (enmSport == myLibrary._enmSport.Cycling) {
 			strSport = myLibrary._strCYCLIST;
-		} else if (enmSport == _enmSport.Running) {
+		} else if (enmSport == myLibrary._enmSport.Running) {
 			strSport = myLibrary._strSPRINTER;
 		}
 		
@@ -396,17 +391,17 @@ public class Main {
 
 	}
 		
-	static void setSelection(_enmSetSelection enmSetSelection, _enmSport enmSport) {
+	static void setSelection(_enmSetSelection enmSetSelection, myLibrary._enmSport enmSport) {
 
 		// Variables
 		String strSport = "";
 		
 		// Evaluate the sport
-		if (enmSport == _enmSport.Swimming) {
+		if (enmSport == myLibrary._enmSport.Swimming) {
 			strSport = myLibrary._strSWIMMER;
-		} else if (enmSport == _enmSport.Cycling) {
+		} else if (enmSport == myLibrary._enmSport.Cycling) {
 			strSport = myLibrary._strCYCLIST;
-		} else if (enmSport == _enmSport.Running) {
+		} else if (enmSport == myLibrary._enmSport.Running) {
 			strSport = myLibrary._strSPRINTER;
 		}
 		

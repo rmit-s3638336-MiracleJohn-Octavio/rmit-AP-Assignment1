@@ -3,15 +3,24 @@ import java.util.Random;
 
 public class myLibrary {
 
-	// Menu | Message Box
+// --- Variables	
 	
-	// Constant
-	static final int _intMenuWidth = 55;
 	// Constants
+	static final int _intMENU_WIDTH = 55;
+	
 	static final String _strSWIMMER = "Swimmer";
 	static final String _strCYCLIST = "Cyclist";
 	static final String _strSPRINTER = "Sprinter";
 	static final String _strSUPER = "Super";
+	
+	// Enums
+	static enum _enmSport {
+		Swimming,
+		Cycling,
+		Running;
+	}
+	
+// --- Menu | Message Box
 	
 	static void displayMenu(String strMenuTitle, String arrMenuOptions[]) {
 		// Pattern
@@ -36,7 +45,7 @@ public class myLibrary {
 	}	
 	static void displayMenuTitle(String strMessage) {
 		displaySeparator();
-		printIt("|" + padCenter(strMessage, _intMenuWidth-2) + "|");
+		printIt("|" + padCenter(strMessage, _intMENU_WIDTH-2) + "|");
 		displaySeparator();
 	}
 	static void displayMenuOptions(String arrValue[]) {
@@ -46,20 +55,20 @@ public class myLibrary {
 			if ( value.equals(tilde)) {
 				displaySeparator();
 			} else {
-				printIt("| " + padRight(value, _intMenuWidth-4) + " |");	
+				printIt("| " + padRight(value, _intMENU_WIDTH-4) + " |");	
 			}	
 		}
 	}
 	
 	static void displaySeparator() {
-		printIt("+" + strReplicate("-", _intMenuWidth-2) + "+");
+		printIt("+" + strReplicate("-", _intMENU_WIDTH-2) + "+");
 	}
 	
 	static void displayMessageBox(String strMessage) {		
 		// Display the Message
 		clearScreen();
 		displaySeparator();
-		printIt("|" + padCenter(strMessage, _intMenuWidth-2) + "|");
+		printIt("|" + padCenter(strMessage, _intMENU_WIDTH-2) + "|");
 		displaySeparator();
 	}
 	
@@ -67,7 +76,7 @@ public class myLibrary {
 		// Display the Prompt
 		clearScreen();
 		displaySeparator();
-		printIt("|" + padCenter(strMessage, _intMenuWidth-2) + "|");
+		printIt("|" + padCenter(strMessage, _intMENU_WIDTH-2) + "|");
 		displaySeparator();
 		
 		// Display press <Enter> to continue
@@ -84,7 +93,7 @@ public class myLibrary {
 		}		
 	}
 	
-	// Justify
+// --- Justify
 	
 	static String padRight(String strValue, int intCount) {
 	    return String.format("%1$-" + intCount + "s", strValue);
@@ -127,7 +136,7 @@ public class myLibrary {
 	    return  returnValue;
 	}
 	
-	// String
+// --- String
 	
 	static String strReplicate(String strValue, int intCount) {
 		String strReturnValue = "";
@@ -149,7 +158,7 @@ public class myLibrary {
 		return r.nextInt((intMax - intMin) + 1) + intMin;
 	}
 	
-	// Validation
+// --- Validation
 	
 	static boolean isEven(int intValue) {
 		// Declare Variable
@@ -168,7 +177,7 @@ public class myLibrary {
 		return returValue;
 	}
 
-	// I/O
+// --- I/O
 	
 	static void pressAnyKey() {
 		System.out.println("Press <Enter> key to continue!");

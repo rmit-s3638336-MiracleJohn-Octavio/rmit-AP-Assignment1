@@ -26,7 +26,7 @@ public abstract class Athlete {
 		 
 	// User defined Method/s
 	
-	public abstract void compete(String strSport);
+	public abstract void compete(myLibrary._enmSport enmSport);
 	
 	// Getters and Setters
 	
