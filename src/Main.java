@@ -22,7 +22,8 @@ public class Main {
 	static String _strSelectedGame = "";
 	static String _strSelectedAthlete = "";
 	
-	static String _strPredictedWinner = "";
+	static String _strPredictedCode = "";
+	static String _strPredictedName = "";
 	
 	// Array
 	static String _arrMenuOptionMain[]= {
@@ -114,7 +115,7 @@ public class Main {
 	    			"Code  | Description",
 	    			"~",
 	    			"[ 1 ] - Select a game to run " + (_strSelectedGame == "" ? "" : "[ " + _strSelectedGame + " ]") + " ",
-	    			"[ 2 ] - Predict the winner of the game " + (_strPredictedWinner == "" ? "" : "[ " + _strPredictedWinner + " ]") + " ",
+	    			"[ 2 ] - Predict the winner of the game " + (_strPredictedCode == "" ? "" : "[ " + _strPredictedCode + " ]") + " ",
 	    			"[ 3 ] - Start the game",
 	    			"[ 4 ] - Display the final results of all games",
 	    			"[ 5 ] - Display the points of all athletes",
@@ -345,10 +346,12 @@ public class Main {
 			// Get the winners
 			int intLowest = getLowest(treeAthlete);
 			int intHighest = getHighest(treeAthlete);
+			String strWinner = "";
 			int intRank = 1;
+			String arrMenuOptions[] = {};								// Array that will hold the Menu Options
 			
 			String strDelimitedNames = 									         
-					" Code  | " + myLibrary.padRight("Name of Athlete", 23) + " | Selected | Point"
+					" Code  | " + myLibrary.padRight("Name of Athlete", 23) + " | Rank | Point"
 							+ ","
 				  + "~";
 			
@@ -366,22 +369,30 @@ public class Main {
 					
 					int intPoints = 0;
 					
-					// Generate Random Numbers
+					// If Found!
 					if (intCurrentSeconds == i) {
 						if (isSelected && (type == _strSelectedAthlete || type == myLibrary._strSUPER)) {						
 							myLibrary.printIt(Integer.toString(entry.getValue().getCurrentSeconds()));
 							
 							if (intRank == 1) {
 								intPoints = 5;
-							} else if (intRank == 1) {
+								strWinner = uid;
+							} else if (intRank == 2) {
 								intPoints = 2;
-							} else if (intRank == 1) {
-								intPoints = 1;
-							}
+							} else if (intRank == 3) {
+								intPoints = 1;								
+							} 
 							
 							strDelimitedNames += ((strDelimitedNames != "") ? "," : "") 
 									+ "[ " + uid+ " ] - " 
-									+ myLibrary.padRight(name, 23) + " - " + Integer.toString(intRank) + " -  " + Integer.toString(intPoints);
+									+ myLibrary.padRight(name, 24) + "| " 
+									+ Integer.toString(intRank) 
+									+ myLibrary.padLeft("| ", 6) 
+									+ Integer.toString(intPoints);
+							
+							if (intRank == 3) {
+								strDelimitedNames += ",~";
+							}
 							
 							// Increment
 							intRank ++;
@@ -391,12 +402,24 @@ public class Main {
 			}
 			
 			// Add the "Back" option to delimiter
+			String strMessage = "";
+			if (strWinner == _strPredictedCode) {
+				strMessage = "Congratulations!";
+			} else {
+				strMessage = "Better luck next time!";
+			}
 			strDelimitedNames += ((strDelimitedNames != "") ? "," : "")
-						+ "~,"					
-						+ "[  0 ] - Back";
+						+ "~,"
+						+ "Prediction: " + _strPredictedCode +" - " + _strPredictedName + ","
+						+ "Result: " + strMessage;
 			
 			myLibrary.printIt("Lowest: " + Integer.toString(intLowest) + "  Highest:  " + Integer.toString(intHighest) );
-			myLibrary.printIt(strDelimitedNames);
+			
+			// Split the delimited string and put it to an array
+			arrMenuOptions = strDelimitedNames.split(",", -1);
+			
+			// Display the Menu
+			myLibrary.displayMenuPrompt("The winners..", arrMenuOptions);
 			
 		} catch (Exception e) {
 			myLibrary.printIt(e.getMessage());
@@ -461,9 +484,10 @@ public class Main {
 		intReturnValue = intHighest;
 		return intReturnValue;
 
-	} 
+	}
+	
 		
-	static void loadAthleteToHashmap() {
+static void loadAthleteToHashmap() {
 		try {
 
 			// Load Swimmer Data to HashMap
@@ -576,6 +600,7 @@ public class Main {
 		myLibrary.displayMenu("Select 4-8 " + _strSelectedAthlete + "s..", arrMenuOptions);
 	}
 	
+	
 	static void createMenuPredict() {
 		
 		/*
@@ -629,6 +654,7 @@ public class Main {
 		myLibrary.displayMenu("Predict the winner..", arrMenuOptions);
 	}
 	
+	
 	static boolean isExitGame() {
 		
 		// Local Variables
@@ -660,6 +686,7 @@ public class Main {
 		return blnReturnValue;
 		
 	}
+	
 
 	static boolean isAthleteCodeValid(String strChoice) {
 
@@ -691,6 +718,7 @@ public class Main {
 
 	}
 	
+	
 	static boolean isSelectedAthleteCodeValid(String strChoice) {
 
 		// Local Variables
@@ -703,13 +731,15 @@ public class Main {
 			// Get the value and put it on local variable
 			String type = entry.getValue().getType();
 			String uid = entry.getValue().getUid();
+			String name = entry.getValue().getName();
 			boolean isSelected = entry.getValue().isSelected();
 			
 			// Generate delimited string from data
 			if (uid.equals(strChoice) && isSelected) {
 				blnReturnValue = true;
 				
-				_strPredictedWinner = uid;
+				_strPredictedCode = uid;
+				_strPredictedName = name;
 				break;
 				
 			}
@@ -719,6 +749,7 @@ public class Main {
 		return blnReturnValue;
 
 	}
+	
 		
 	static void setSelection(_enmSetSelection enmSetSelection, myLibrary._enmGame enmGame) {
 

@@ -43,6 +43,29 @@ public class myLibrary {
 		displaySeparator();
 		printIt("Type the code of your choice below:");
 	}	
+	static void displayMenuPrompt(String strMenuTitle, String arrMenuOptions[]) {
+		// Pattern
+    	// 			 1         2         3         4         5
+		//  12345678901234567890123456789012345678901234567890
+		// "+------------------------------------------------+");
+		// "|               Ozlympic Games MENU              |");
+		// "+------------------------------------------------+");
+		// "| [ 1 ] - Swimming                               |");
+		// "| [ 2 ] - Cycling                                |");
+		// "| [ 3 ] - Running                                |");
+		// "+------------------------------------------------+");
+		// "| [ 0 ] - Exit                                   |");
+		// "+------------------------------------------------+");
+		// "Type the code of your choice below:";
+		
+		clearScreen();
+		displayMenuTitle(strMenuTitle);
+		displayMenuOptions(arrMenuOptions);
+		displaySeparator();
+		
+		// Display press <Enter> to continue
+    	pressAnyKey();
+	}	
 	static void displayMenuTitle(String strMessage) {
 		displaySeparator();
 		printIt("|" + padCenter("** Ozlympic Game **", _intMENU_WIDTH-2) + "|");
